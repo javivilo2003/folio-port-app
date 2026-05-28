@@ -65,7 +65,7 @@
   }
 
   .font-display {
-    font-family: var(--font-instrument-serif), serif;
+    font-family: var(--font-prata), var(--font-instrument-serif), serif;
   }
 
   .font-utility {

@@ -6,11 +6,16 @@ type TopNavItem = {
   label: string
 }
 
+type InfoItem = {
+  label: string
+  value: string
+}
+
 export type Dictionary = {
   brand: string
   switchLabel: string
   topNav: TopNavItem[]
-  availability: string
+  info: InfoItem[]
   hero: {
     firstName: string
     lastName: string
@@ -27,7 +32,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       { href: "#index", index: "03", label: "INDEX" },
       { href: "#contact", index: "04", label: "CONTACT" },
     ],
-    availability: "AVAILABLE — Q3 2026",
+    info: [
+      { label: "INDEX Nº 00", value: "PORTFOLIO / 2026" },
+      { label: "DISCIPLINE", value: "SOFTWARE ENGINEER" },
+      { label: "BASED IN", value: "MADRID, SPAIN" },
+      { label: "STATUS", value: "OPEN TO WORK" },
+    ],
     hero: {
       firstName: "Javier",
       lastName: "Viloria",
@@ -42,7 +52,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       { href: "#index", index: "03", label: "INDICE" },
       { href: "#contact", index: "04", label: "CONTACTO" },
     ],
-    availability: "DISPONIBLE — Q3 2026",
+    info: [
+      { label: "INDICE Nº 00", value: "PORTAFOLIO / 2026" },
+      { label: "DISCIPLINA", value: "INGENIERO DE SOFTWARE" },
+      { label: "BASADO EN", value: "MADRID, ESPANA" },
+      { label: "ESTADO", value: "ABIERTO A TRABAJAR" },
+    ],
     hero: {
       firstName: "Javier",
       lastName: "Viloria",

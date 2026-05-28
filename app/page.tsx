@@ -4,72 +4,107 @@ import Link from "next/link"
 import { useState } from "react"
 
 import { LenisScrollSync } from "@/components/motion/lenis-scroll-sync"
-import { Button } from "@/components/ui/button"
 import { dictionaries, type Locale } from "@/lib/i18n"
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("en")
   const dictionary = dictionaries[locale]
+  const isSpanish = locale === "es"
 
   function toggleLocale() {
     setLocale(locale === "en" ? "es" : "en")
   }
 
   return (
-    <div className="min-h-screen bg-black text-[#E8DCC4]">
+    <div className="min-h-screen bg-black p-[4px] text-[#E8DCC4]">
       <LenisScrollSync />
 
-      <header className="sticky top-0 z-50 border-b hairline bg-black/92 backdrop-blur">
-        <div className="mx-auto grid w-full max-w-[1800px] grid-cols-12 gap-4 px-6 py-5 md:px-10">
-          <div className="col-span-5 md:col-span-3">
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={toggleLocale}
-              className="font-utility h-8 border-[#E8DCC4]/30 px-3 text-[#E8DCC4] hover:bg-[#E8DCC4] hover:text-black"
-            >
-              {dictionary.switchLabel}
-            </Button>
-          </div>
+      <div className="mx-auto min-h-[calc(100vh-8px)] w-full max-w-[1860px] bg-black">
+        <section className="relative hidden min-h-[calc(100vh-10px)] lg:block">
+          <button
+            type="button"
+            onClick={toggleLocale}
+            aria-label={`Switch language to ${dictionary.switchLabel}`}
+            className="absolute left-[3.2407%] top-[1.8805%] font-utility text-[12px] tracking-[0] text-[#E8DCC4] underline decoration-[11%] underline-offset-1 transition-colors hover:text-white"
+          >
+            {dictionary.switchLabel}
+          </button>
 
-          <nav className="col-span-7 md:col-span-9">
-            <ul className="flex flex-wrap items-center justify-end gap-x-8 gap-y-2 md:gap-x-12">
+          <nav className="absolute right-[clamp(12px,1.45%,30px)] top-[1.8805%]">
+            <ul
+              className={`flex items-center ${
+                isSpanish ? "gap-[clamp(6px,0.55vw,10px)]" : "gap-[clamp(8px,0.85vw,15px)]"
+              }`}
+            >
               {dictionary.topNav.map((item) => (
                 <li key={item.index}>
                   <Link
                     href={item.href}
-                    className="font-utility utility-dim transition-colors hover:text-[#E8DCC4]"
+                    className={`flex h-[30px] items-center justify-center whitespace-nowrap px-[8px] font-utility text-[12px] tracking-[0] text-[#E8DCC4] transition-colors hover:text-white ${
+                      isSpanish && item.index === "01" ? "min-w-[110px]" : "min-w-[94px]"
+                    }`}
                   >
-                    <span className="mr-2">{item.index}</span>
-                    {item.label}
+                    <span className="mr-[6px] text-[14px] text-[#736343]">{item.index}</span>
+                    <span>{item.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
-        </div>
-      </header>
 
-      <main className="mx-auto w-full max-w-[1800px] px-6 pb-10 md:px-10 md:pb-16">
-        <section className="relative mt-4 min-h-[76vh] border-x border-b hairline p-6 md:p-10">
-          <span className="pointer-events-none absolute left-0 top-20 h-4 w-4 border-l border-t border-[#E8DCC4]/70" />
-          <span className="pointer-events-none absolute right-0 top-20 h-4 w-4 border-r border-t border-[#E8DCC4]/70" />
+          <div className="absolute left-[4.5139%] right-[4.5718%] top-[6.9382%] border-b border-[#3B342A]" />
+          <div className="absolute left-[4.5718%] right-[4.5139%] top-[95.0761%] border-b border-[#3B342A]" />
 
-          <div className="grid h-full grid-cols-12 gap-4 md:gap-6">
-            <p className="font-utility utility-dim col-span-12 md:col-span-5">
-              {dictionary.availability}
-            </p>
+          <span className="pointer-events-none absolute left-[14.294%] top-[15.7565%] h-5 w-5 border-l border-t border-[#D0C2A8]/85" />
+          <span className="pointer-events-none absolute right-[13.1944%] top-[15.7565%] h-5 w-5 border-r border-t border-[#D0C2A8]/85" />
+          <span className="pointer-events-none absolute bottom-[15.7565%] left-[14.294%] h-5 w-5 border-b border-l border-[#D0C2A8]/85" />
+          <span className="pointer-events-none absolute bottom-[15.7565%] right-[13.1944%] h-5 w-5 border-b border-r border-[#D0C2A8]/85" />
 
-            <div className="relative col-span-12 mt-10 md:mt-20">
-              <div className="pointer-events-none absolute -right-1 top-0 z-0 h-[46vh] w-full max-w-[48rem] border hairline" />
+          <section className="absolute left-[9.7222%] right-[37.6157%] top-[31.7816%] grid grid-cols-4 gap-[2.4vw]">
+            {dictionary.info.map((item) => (
+              <div key={item.label} className="font-utility">
+                <p className="text-[14px] tracking-[0] text-[#736343]">{item.label}</p>
+                <p className="mt-[6px] text-[14px] tracking-[0] text-[#E8DCC4]">{item.value}</p>
+              </div>
+            ))}
+          </section>
 
-              <h1 className="font-display relative z-10 text-[clamp(3.2rem,11vw,10.5rem)] leading-[0.84] tracking-tight">
-                {dictionary.hero.firstName} <em className="italic">{dictionary.hero.lastName}</em>
-              </h1>
-            </div>
-          </div>
+          <h1 className="font-display absolute left-[9.0856%] top-[68.9354%] text-[clamp(56px,4.2vw,72px)] leading-[1.2] tracking-[-0.03em] text-[#E8DCC4]">
+            {dictionary.hero.firstName.toUpperCase()} {dictionary.hero.lastName.toUpperCase()}
+          </h1>
         </section>
-      </main>
+
+        <section className="flex min-h-[calc(100vh-10px)] flex-col px-6 pb-7 pt-6 lg:hidden">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={toggleLocale}
+              aria-label={`Switch language to ${dictionary.switchLabel}`}
+              className="font-utility text-[12px] tracking-[0] text-[#E8DCC4] underline decoration-[11%]"
+            >
+              {dictionary.switchLabel}
+            </button>
+            <span className="font-utility text-[12px] text-[#736343]">PORTFOLIO</span>
+          </div>
+
+          <div className="mt-5 border-b border-[#3B342A]" />
+
+          <div className="mt-12 grid grid-cols-1 gap-6">
+            {dictionary.info.map((item) => (
+              <div key={item.label} className="font-utility">
+                <p className="text-[13px] text-[#736343]">{item.label}</p>
+                <p className="mt-1 text-[13px] text-[#E8DCC4]">{item.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <h1 className="font-display mt-auto text-[17vw] leading-[0.95] tracking-[-0.02em] text-[#E8DCC4]">
+            {dictionary.hero.firstName.toUpperCase()} {dictionary.hero.lastName.toUpperCase()}
+          </h1>
+
+          <div className="mt-10 border-b border-[#3B342A]" />
+        </section>
+      </div>
     </div>
   )
 }
