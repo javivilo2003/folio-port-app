@@ -3,6 +3,7 @@ import {
   Bricolage_Grotesque,
   Instrument_Serif,
   JetBrains_Mono,
+  Prata,
 } from "next/font/google"
 
 import "./globals.css"
@@ -24,6 +25,12 @@ const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 })
 
+const prata = Prata({
+  variable: "--font-prata",
+  subsets: ["latin"],
+  weight: ["400"],
+})
+
 export const metadata: Metadata = {
   title: "Javier Viloria",
   description: "Editorial portfolio skeleton",
@@ -37,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolageGrotesque.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable} h-full antialiased`}
+      className={`${bricolageGrotesque.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable} ${prata.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
