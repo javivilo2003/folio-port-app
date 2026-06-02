@@ -51,18 +51,13 @@ export default function Home() {
       </header>
 
       <main className="mx-auto w-full max-w-[1800px] px-6 pb-10 md:px-10 md:pb-16">
-        <section className="relative mt-4 min-h-[76vh] border-x border-b hairline p-6 md:p-10">
-          <span className="pointer-events-none absolute left-0 top-20 h-4 w-4 border-l border-t border-[#E8DCC4]/70" />
-          <span className="pointer-events-none absolute right-0 top-20 h-4 w-4 border-r border-t border-[#E8DCC4]/70" />
-
-          <div className="grid h-full grid-cols-12 gap-4 md:gap-6">
+        <section className="relative mt-4 min-h-[76vh] overflow-hidden p-6 md:p-10">
+          <div className="pointer-events-none relative z-20 grid h-full grid-cols-12 gap-4 md:gap-6">
             <p className="font-utility utility-dim col-span-12 md:col-span-5">
               {dictionary.availability}
             </p>
 
             <div className="relative col-span-12 mt-10 md:mt-20">
-              <div className="pointer-events-none absolute -right-1 top-0 z-0 h-[46vh] w-full max-w-[48rem] border hairline" />
-
               <h1 className="font-display relative z-10 text-[clamp(3.2rem,11vw,10.5rem)] leading-[0.84] tracking-tight">
                 {dictionary.hero.firstName} <em className="italic">{dictionary.hero.lastName}</em>
               </h1>
