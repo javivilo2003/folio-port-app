@@ -26,6 +26,16 @@ export type Dictionary = {
     toolingLabel: string
     toolingItems: string[]
   }
+  servicesSection: {
+    lead: string
+    items: {
+      tag: string
+      title: string
+      description: string
+      capabilities: string[]
+    }[]
+    closingNote: string
+  }
   sectionPlaceholders: {
     about: string
     services: string
@@ -103,6 +113,48 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Swagger UI",
         "Linux Terminal",
       ],
+    },
+    servicesSection: {
+      lead: "A focused set of things I can build and ship for you today — drawn from real product work inside an international healthcare SaaS, where I delivered features across web, mobile, and the pipelines in between, as well as the personal and school projects I have worked on.",
+      items: [
+        {
+          tag: "FULL-STACK",
+          title: "Full-Stack Web Applications",
+          description:
+            "End-to-end product modules with a React and TypeScript frontend over a Java and Spring Boot or NestJS backend. I design the data model, build the REST API, and wire up interfaces that stay clean and structured as the product grows — the way I built an inventory module for a clinical SaaS platform, and the intelligent stock manager I created as my personal TFG project.",
+          capabilities: ["React", "TypeScript", "Java", "Spring Boot", "NestJS", "REST APIs", "PostgreSQL", "MySQL"],
+        },
+        {
+          tag: "INTEGRATIONS",
+          title: "API & Platform Integrations",
+          description:
+            "Connecting a product to the services it depends on. I have shipped Google OAuth sign-in and a social module that creates, publishes, and schedules content across LinkedIn, Meta, and X through their public APIs.",
+          capabilities: ["OAuth 2.0", "Google Sign-In", "LinkedIn API", "Meta API", "X API", "Webhooks", "Scheduling"],
+        },
+        {
+          tag: "CROSS-PLATFORM",
+          title: "Cross-Platform & Mobile Delivery",
+          description:
+            "Taking one codebase to desktop and mobile with Tauri, then all the way through distribution — managing TestFlight betas and scheduled push notifications so real builds reach real testers.",
+          capabilities: ["Tauri", "Android", "TestFlight", "Cross-platform", "Push notifications"],
+        },
+        {
+          tag: "AUTOMATION",
+          title: "CI/CD & Workflow Automation",
+          description:
+            "Pipelines that take the manual effort out of shipping. I build GitHub Actions workflows to automate releases, and I worked on a system that analyzes pull requests and recommends merges against quality rules.",
+          capabilities: ["GitHub Actions", "Docker", "Automated releases", "PR analysis", "Quality gates"],
+        },
+        {
+          tag: "QUALITY",
+          title: "QA & Pre-Launch Validation",
+          description:
+            "Making sure it works before anyone sees it. Functional QA in staging to validate stability ahead of demos, deliveries, and production — catching the issues that matter while there is still time to fix them.",
+          capabilities: ["Functional QA", "Staging validation", "Pre-demo testing", "Bug triage"],
+        },
+      ],
+      closingNote:
+        "I'm early in my career and intentional about it — every capability here is something I have already shipped in a production environment, and the list grows with each project. Open to collaborations, freelance work, and a first full-time engineering role.",
     },
     sectionPlaceholders: {
       about: "This section is being built and will be published soon.",
@@ -184,6 +236,48 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Swagger UI",
         "Linux Terminal",
       ],
+    },
+    servicesSection: {
+      lead: "Un conjunto concreto de cosas que puedo construir y entregar hoy, surgidas de trabajo real de producto dentro de un SaaS internacional de salud, donde desarrolle funcionalidades en web, movil y los pipelines intermedios, asi como de los proyectos personales y academicos en los que he trabajado.",
+      items: [
+        {
+          tag: "FULL-STACK",
+          title: "Aplicaciones Web Full-Stack",
+          description:
+            "Modulos de producto de principio a fin con frontend en React y TypeScript sobre un backend en Java y Spring Boot o NestJS. Diseno el modelo de datos, construyo la API REST y conecto interfaces que se mantienen limpias y estructuradas a medida que el producto crece, como el modulo de inventario que desarrolle para una plataforma SaaS clinica y el gestor de stock inteligente que cree como mi proyecto personal de TFG.",
+          capabilities: ["React", "TypeScript", "Java", "Spring Boot", "NestJS", "REST APIs", "PostgreSQL", "MySQL"],
+        },
+        {
+          tag: "INTEGRACIONES",
+          title: "Integraciones de APIs y Plataformas",
+          description:
+            "Conectar un producto con los servicios de los que depende. He implementado inicio de sesion con Google OAuth y un modulo social que crea, publica y programa contenido en LinkedIn, Meta y X a traves de sus APIs publicas.",
+          capabilities: ["OAuth 2.0", "Google Sign-In", "API de LinkedIn", "API de Meta", "API de X", "Webhooks", "Programacion"],
+        },
+        {
+          tag: "MULTIPLATAFORMA",
+          title: "Entrega Multiplataforma y Movil",
+          description:
+            "Llevar un mismo codigo a escritorio y movil con Tauri, y despues hasta la distribucion: gestion de betas con TestFlight y notificaciones push programadas para que las builds reales lleguen a testers reales.",
+          capabilities: ["Tauri", "Android", "TestFlight", "Multiplataforma", "Notificaciones push"],
+        },
+        {
+          tag: "AUTOMATIZACION",
+          title: "CI/CD y Automatizacion de Flujos",
+          description:
+            "Pipelines que quitan el trabajo manual de los despliegues. Construyo flujos con GitHub Actions para automatizar releases y he trabajado en un sistema que analiza pull requests y recomienda merges segun reglas de calidad.",
+          capabilities: ["GitHub Actions", "Docker", "Releases automatizados", "Analisis de PR", "Reglas de calidad"],
+        },
+        {
+          tag: "CALIDAD",
+          title: "QA y Validacion Pre-Lanzamiento",
+          description:
+            "Asegurar que funciona antes de que nadie lo vea. QA funcional en staging para validar la estabilidad antes de demos, entregas y produccion, detectando los problemas que importan cuando aun hay tiempo de corregirlos.",
+          capabilities: ["QA funcional", "Validacion en staging", "Pruebas pre-demo", "Triage de bugs"],
+        },
+      ],
+      closingNote:
+        "Estoy al inicio de mi carrera y lo asumo con intencion: cada capacidad aqui es algo que ya he entregado en un entorno de produccion, y la lista crece con cada proyecto. Abierto a colaboraciones, trabajo freelance y un primer rol full-time como ingeniero.",
     },
     sectionPlaceholders: {
       about: "Esta seccion esta en construccion y se publicara pronto.",

@@ -23,6 +23,7 @@ export default function Home() {
   const heroNameRef = useRef<HTMLHeadingElement>(null)
   const navBrandRef = useRef<HTMLAnchorElement>(null)
   const servicesSectionRef = useRef<HTMLElement>(null)
+  const servicesLeadRef = useRef<HTMLParagraphElement>(null)
   const dictionary = dictionaries[locale]
   const isSpanish = locale === "es"
   const aboutNavItem = dictionary.topNav.find((item) => item.href === "#about")
@@ -322,6 +323,127 @@ export default function Home() {
     }
   }, [locale])
 
+  useEffect(() => {
+    const lead = servicesLeadRef.current
+    if (!lead) {
+      return
+    }
+
+    const context = gsap.context(() => {
+      const split = new SplitText(lead, { type: "lines", linesClass: "services-lead-line" })
+
+      gsap.set(split.lines, {
+        autoAlpha: 0,
+        yPercent: 100,
+      })
+
+      gsap.to(split.lines, {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.09,
+        scrollTrigger: {
+          trigger: lead,
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      })
+
+      return () => {
+        split.revert()
+      }
+    }, lead)
+
+    return () => {
+      context.revert()
+    }
+  }, [locale])
+
+  useEffect(() => {
+    const section = servicesSectionRef.current
+    if (!section) {
+      return
+    }
+
+    const rows = Array.from(section.querySelectorAll<HTMLElement>("[data-service-row]"))
+    if (!rows.length) {
+      return
+    }
+
+    const context = gsap.context(() => {
+      rows.forEach((row) => {
+        const line = row.querySelector<HTMLElement>("[data-service-line]")
+        const meta = row.querySelector<HTMLElement>("[data-service-meta]")
+        const title = row.querySelector<HTMLElement>("[data-service-title]")
+        const description = row.querySelector<HTMLElement>("[data-service-desc]")
+        const capabilities = row.querySelectorAll<HTMLElement>("[data-service-cap]")
+
+        // Each row assembles itself as it scrolls into view. Reveal-once
+        // (no reverse) so coming back from Index doesn't re-hide and glitch,
+        // matching the About headline's note.
+        const timeline = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: {
+            trigger: row,
+            start: "top 84%",
+            toggleActions: "play none none none",
+          },
+        })
+
+        if (line) {
+          gsap.set(line, { scaleX: 0, transformOrigin: "left center" })
+          timeline.to(line, { scaleX: 1, duration: 0.9, ease: "power2.inOut" }, 0)
+        }
+
+        if (meta) {
+          gsap.set(meta, { autoAlpha: 0, x: -16 })
+          timeline.to(meta, { autoAlpha: 1, x: 0, duration: 0.6 }, 0.08)
+        }
+
+        if (title) {
+          gsap.set(title, { autoAlpha: 0, clipPath: "inset(0 100% 0 0)", x: -18 })
+          timeline.to(
+            title,
+            {
+              autoAlpha: 1,
+              clipPath: "inset(0 0% 0 0)",
+              x: 0,
+              duration: 0.72,
+              clearProps: "clipPath,transform",
+            },
+            0.12,
+          )
+        }
+
+        if (description) {
+          gsap.set(description, { autoAlpha: 0, y: 16 })
+          timeline.to(description, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.24)
+        }
+
+        if (capabilities.length) {
+          gsap.set(capabilities, { autoAlpha: 0, y: 12, scale: 0.96 })
+          timeline.to(
+            capabilities,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.5,
+              stagger: 0.05,
+              clearProps: "transform",
+            },
+            0.3,
+          )
+        }
+      })
+    }, section)
+
+    return () => {
+      context.revert()
+    }
+  }, [locale])
+
   return (
     <div className="min-h-screen bg-black p-[4px] text-[#E8DCC4]">
       <LenisScrollSync />
@@ -517,7 +639,7 @@ export default function Home() {
         <section
           id="services"
           ref={servicesSectionRef}
-          className="scroll-mt-28 pb-20 pt-10 lg:min-h-[72vh] lg:pb-28 lg:pt-10"
+          className="scroll-mt-28 pb-24 pt-10 lg:pb-36 lg:pt-16"
         >
           <div className="px-6 lg:px-[9.0856%]">
             <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-[0] text-[#7B6F5A] lg:ml-[-1.6%]">
@@ -525,11 +647,69 @@ export default function Home() {
               <span className="h-px w-14 bg-[#3B342A]" />
               <span data-scramble-label>{servicesNavItem?.label ?? "SERVICES"}</span>
             </div>
-            <h2 className="font-display mt-5 text-[clamp(40px,3.85vw,64px)] leading-[1.08] tracking-[-0.02em] text-[#E8DCC4]">
-              {servicesNavItem?.label ?? "SERVICES"}
-            </h2>
-            <p className="font-utility mt-8 max-w-[780px] text-[13px] leading-[1.8] tracking-[0.08em] text-[#A99C87]">
-              {dictionary.sectionPlaceholders.services}
+
+            <p
+              ref={servicesLeadRef}
+              className="mt-10 max-w-[920px] text-balance text-[clamp(20px,1.7vw,30px)] leading-[1.4] tracking-[-0.01em] text-[#7B6F5A] lg:mt-12 lg:ml-[8.2%]"
+            >
+              {dictionary.servicesSection.lead}
+            </p>
+
+            <div className="mt-16 lg:mt-28">
+              {dictionary.servicesSection.items.map((item, index) => (
+                <article
+                  key={item.title}
+                  data-service-row
+                  data-scramble-group
+                  className="group relative grid grid-cols-1 gap-6 border-t border-[#3B342A] py-9 will-change-transform last:border-b lg:grid-cols-[110px_minmax(0,1fr)_minmax(0,330px)] lg:gap-12 lg:py-12"
+                >
+                  <span
+                    data-service-line
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-[#5A5040]"
+                  />
+
+                  <div data-service-meta className="flex items-baseline gap-4 will-change-transform lg:flex-col lg:gap-5">
+                    <span data-scramble-label className="font-utility text-[14px] text-[#736343]">
+                      ({String(index + 1).padStart(2, "0")})
+                    </span>
+                    <span data-scramble-label className="font-utility text-[11px] tracking-[0.14em] text-[#4B4335]">
+                      {item.tag}
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3
+                      data-service-title
+                      className="font-display text-[clamp(24px,2.1vw,34px)] leading-[1.12] tracking-[-0.015em] text-[#E8DCC4] transition-colors duration-300 will-change-transform group-hover:text-white"
+                    >
+                      {item.title}
+                    </h3>
+                    <p
+                      data-service-desc
+                      className="mt-4 max-w-[560px] text-[clamp(15px,0.98vw,17px)] leading-[1.7] text-[#7B6F5A] will-change-transform"
+                    >
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <ul className="flex flex-wrap content-start gap-x-2.5 gap-y-2.5 font-utility text-[12px] tracking-[0.02em] lg:justify-end">
+                    {item.capabilities.map((capability) => (
+                      <li
+                        key={capability}
+                        data-service-cap
+                        className="whitespace-nowrap rounded-full border border-[#3B342A] px-[11px] py-[5px] text-[#A99C87] transition-colors duration-300 will-change-transform group-hover:border-[#5A5040] group-hover:text-[#D7CCB4]"
+                      >
+                        {capability}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <p className="mt-16 max-w-[680px] font-utility text-[12px] leading-[1.85] tracking-[0.04em] text-[#4B4335]">
+              {dictionary.servicesSection.closingNote}
             </p>
           </div>
         </section>
