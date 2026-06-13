@@ -29,6 +29,14 @@
 }
 
 :root {
+  --font-bricolage-grotesque:
+    "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-instrument-serif:
+    "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-jetbrains-mono:
+    "JetBrains Mono", "SFMono-Regular", "Menlo", "Monaco", "Courier New", monospace;
+  --font-prata:
+    "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
