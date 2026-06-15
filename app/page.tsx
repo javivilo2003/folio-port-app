@@ -10,6 +10,7 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 import { LenisScrollSync } from "@/components/motion/lenis-scroll-sync"
+import { ProjectsShowcase, SHOWCASE_PHONE_COUNT } from "@/components/three/projects-showcase"
 import { dictionaries, type Locale } from "@/lib/i18n"
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, ScrambleTextPlugin, SplitText)
@@ -24,11 +25,16 @@ export default function Home() {
   const navBrandRef = useRef<HTMLAnchorElement>(null)
   const servicesSectionRef = useRef<HTMLElement>(null)
   const servicesLeadRef = useRef<HTMLParagraphElement>(null)
+  const projectsTrackRef = useRef<HTMLDivElement>(null)
+  const projectsCaptionLabelRef = useRef<HTMLSpanElement>(null)
+  const projectsCaptionIndexRef = useRef<HTMLSpanElement>(null)
+  const projectsProgressRef = useRef<number>(0)
+  const projectsActiveIndexRef = useRef<number>(-1)
   const dictionary = dictionaries[locale]
   const isSpanish = locale === "es"
   const aboutNavItem = dictionary.topNav.find((item) => item.href === "#about")
   const servicesNavItem = dictionary.topNav.find((item) => item.href === "#services")
-  const indexNavItem = dictionary.topNav.find((item) => item.href === "#index")
+  const projectsNavItem = dictionary.topNav.find((item) => item.href === "#projects")
   const contactNavItem = dictionary.topNav.find((item) => item.href === "#contact")
 
   function toggleLocale() {
@@ -444,12 +450,58 @@ export default function Home() {
     }
   }, [locale])
 
+  useEffect(() => {
+    const track = projectsTrackRef.current
+    if (!track) {
+      return
+    }
+
+    const labelEl = projectsCaptionLabelRef.current
+    const indexEl = projectsCaptionIndexRef.current
+
+    // The carousel is driven by the scroll position of the tall track section.
+    // Progress runs from 0 (first phone center stage) to 1 (last phone) as the
+    // pinned canvas scrubs through the track. The 3D scene reads
+    // projectsProgressRef.current every frame via useFrame.
+    const trigger = ScrollTrigger.create({
+      trigger: track,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.65,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        projectsProgressRef.current = self.progress
+
+        const activeIndex = Math.min(
+          SHOWCASE_PHONE_COUNT - 1,
+          Math.max(0, Math.round(self.progress * (SHOWCASE_PHONE_COUNT - 1))),
+        )
+
+        if (activeIndex !== projectsActiveIndexRef.current) {
+          projectsActiveIndexRef.current = activeIndex
+          if (labelEl) {
+            labelEl.textContent = `SCREEN ${String(activeIndex + 1).padStart(2, "0")} / ${String(
+              SHOWCASE_PHONE_COUNT,
+            ).padStart(2, "0")}`
+          }
+          if (indexEl) {
+            indexEl.textContent = String(activeIndex + 1).padStart(2, "0")
+          }
+        }
+      },
+    })
+
+    return () => {
+      trigger.kill()
+    }
+  }, [locale])
+
   return (
-    <div className="min-h-screen bg-black p-[4px] text-[#E8DCC4]">
+    <div className="min-h-screen bg-[#0B0B0B] p-[4px] text-[#E8DCC4]">
       <LenisScrollSync />
 
-      <div className="mx-auto min-h-[calc(100vh-8px)] w-full max-w-[1860px] bg-black">
-        <div className="sticky top-0 z-50 hidden bg-black/95 lg:block">
+      <div className="mx-auto min-h-[calc(100vh-8px)] w-full max-w-[1860px] bg-[#0B0B0B]">
+        <div className="sticky top-0 z-50 hidden bg-[#0B0B0B]/95 lg:block">
           <div className="mx-[4.55%] flex min-h-[72px] items-center justify-between border-b border-[#3B342A]">
             <button
               type="button"
@@ -714,19 +766,121 @@ export default function Home() {
           </div>
         </section>
         
-        <section id="index" className="scroll-mt-28 py-20 lg:min-h-[72vh] lg:py-28">
+        <section id="projects" className="scroll-mt-28 pb-12 pt-10 lg:pt-16">
           <div className="px-6 lg:px-[9.0856%]">
             <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-[0] text-[#7B6F5A] lg:ml-[-1.6%]">
-              <span data-scramble-label className="text-[#E8DCC4]">{indexNavItem?.index ?? "03"}</span>
+              <span data-scramble-label className="text-[#E8DCC4]">{projectsNavItem?.index ?? "03"}</span>
               <span className="h-px w-14 bg-[#3B342A]" />
-              <span data-scramble-label>{indexNavItem?.label ?? "INDEX"}</span>
+              <span data-scramble-label>{projectsNavItem?.label ?? "PROJECTS"}</span>
             </div>
             <h2 className="font-display mt-5 text-[clamp(40px,3.85vw,64px)] leading-[1.08] tracking-[-0.02em] text-[#E8DCC4]">
-              {indexNavItem?.label ?? "INDEX"}
+              {dictionary.projectsSection.title}
             </h2>
-            <p className="font-utility mt-8 max-w-[780px] text-[13px] leading-[1.8] tracking-[0.08em] text-[#A99C87]">
-              {dictionary.sectionPlaceholders.index}
+            <p className="mt-10 max-w-[760px] text-balance text-[clamp(16px,1.02vw,19px)] leading-[1.65] text-[#7B6F5A] lg:mt-12 lg:ml-[8.2%]">
+              {dictionary.projectsSection.lead}
             </p>
+          </div>
+        </section>
+
+        <section
+          ref={projectsTrackRef}
+          className="relative w-full"
+          style={{ height: "320vh" }}
+        >
+          <div className="sticky top-0 flex h-screen w-full flex-col overflow-hidden bg-[#0B0B0B]">
+            {/* Push the eyebrow row below the sticky page navbar (desktop)
+                — on mobile there is no navbar so we only need a small inset. */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between px-6 pt-7 lg:px-[9.0856%] lg:pt-[104px]">
+              <div data-scramble-group className="flex items-baseline gap-4 font-utility text-[12px] tracking-[0.14em] text-[#7B6F5A]">
+                <span data-scramble-label className="text-[#E8DCC4]">
+                  {dictionary.projectsSection.project.kicker}
+                </span>
+                <span className="h-px w-10 bg-[#3B342A]" />
+                <span data-scramble-label>{dictionary.projectsSection.eyebrow}</span>
+              </div>
+              <div className="hidden text-right font-utility text-[12px] tracking-[0.14em] text-[#4B4335] lg:block">
+                <span ref={projectsCaptionLabelRef}>SCREEN 01 / {String(SHOWCASE_PHONE_COUNT).padStart(2, "0")}</span>
+              </div>
+            </div>
+
+            {/* Canvas bounds are responsive: mobile needs less top inset (no
+                navbar) and more bottom inset (the stacked caption block is
+                taller); desktop reserves the navbar height up top and a
+                shorter caption block at the bottom. */}
+            <div className="absolute inset-x-0 top-[64px] bottom-[300px] lg:top-[140px] lg:bottom-[190px]">
+              <ProjectsShowcase progressRef={projectsProgressRef} />
+            </div>
+
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 grid grid-cols-1 gap-6 px-6 pb-12 lg:grid-cols-[1fr_auto_1fr] lg:items-end lg:gap-12 lg:px-[9.0856%] lg:pb-16">
+              <div className="max-w-[420px]">
+                <p className="font-utility text-[11px] tracking-[0.18em] text-[#4B4335]">
+                  {dictionary.projectsSection.project.role}
+                </p>
+                <h3 className="font-display mt-3 text-[clamp(24px,2.1vw,34px)] leading-[1.1] tracking-[-0.015em] text-[#E8DCC4]">
+                  {dictionary.projectsSection.project.name}
+                </h3>
+                <p className="font-utility mt-3 text-[12px] tracking-[0.12em] text-[#736343]">
+                  {dictionary.projectsSection.project.period}
+                </p>
+              </div>
+
+              <div className="hidden flex-col items-center font-utility text-[11px] tracking-[0.2em] text-[#4B4335] lg:flex">
+                <span className="font-display text-[clamp(40px,3vw,56px)] leading-none tracking-[-0.02em] text-[#E8DCC4]/85">
+                  <span ref={projectsCaptionIndexRef}>01</span>
+                </span>
+                <span className="mt-2">{dictionary.projectsSection.project.scrollHint.toUpperCase()}</span>
+              </div>
+
+              <div className="max-w-[420px] lg:ml-auto lg:text-right">
+                <p className="text-[clamp(14px,0.95vw,16px)] leading-[1.65] text-[#7B6F5A]">
+                  {dictionary.projectsSection.project.summary}
+                </p>
+              </div>
+            </div>
+
+            <span className="pointer-events-none absolute left-[4.5%] top-[150px] hidden h-5 w-5 border-l border-t border-[#3B342A] lg:block" />
+            <span className="pointer-events-none absolute right-[4.5%] top-[150px] hidden h-5 w-5 border-r border-t border-[#3B342A] lg:block" />
+            <span className="pointer-events-none absolute bottom-[8%] left-[4.5%] hidden h-5 w-5 border-b border-l border-[#3B342A] lg:block" />
+            <span className="pointer-events-none absolute bottom-[8%] right-[4.5%] hidden h-5 w-5 border-b border-r border-[#3B342A] lg:block" />
+          </div>
+        </section>
+
+        <section className="scroll-mt-28 py-20 lg:py-28">
+          <div className="px-6 lg:px-[9.0856%]">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+              <div>
+                <p data-scramble-label className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">
+                  STACK
+                </p>
+                <ul className="mt-4 flex flex-wrap gap-x-2.5 gap-y-2.5 font-utility text-[12px] tracking-[0.02em]">
+                  {dictionary.projectsSection.project.stack.map((item) => (
+                    <li
+                      key={item}
+                      className="whitespace-nowrap rounded-full border border-[#3B342A] px-[11px] py-[5px] text-[#A99C87]"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p data-scramble-label className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">
+                  WHAT I BUILT
+                </p>
+                <ul className="mt-6 divide-y divide-[#3B342A]">
+                  {dictionary.projectsSection.project.features.map((feature) => (
+                    <li key={feature.label} className="grid grid-cols-1 gap-3 py-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-10">
+                      <p className="font-display text-[clamp(16px,1.05vw,19px)] leading-[1.25] tracking-[-0.01em] text-[#E8DCC4]">
+                        {feature.label}
+                      </p>
+                      <p className="text-[clamp(14px,0.92vw,16px)] leading-[1.65] text-[#7B6F5A]">
+                        {feature.detail}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 

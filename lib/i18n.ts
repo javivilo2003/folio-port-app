@@ -36,10 +36,25 @@ export type Dictionary = {
     }[]
     closingNote: string
   }
+  projectsSection: {
+    eyebrow: string
+    title: string
+    lead: string
+    project: {
+      kicker: string
+      name: string
+      role: string
+      period: string
+      summary: string
+      features: { label: string; detail: string }[]
+      stack: string[]
+      scrollHint: string
+    }
+  }
   sectionPlaceholders: {
     about: string
     services: string
-    index: string
+    projects: string
     contact: string
   }
   info: InfoItem[]
@@ -56,7 +71,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     topNav: [
       { href: "#about", index: "01", label: "ABOUT" },
       { href: "#services", index: "02", label: "SERVICES" },
-      { href: "#index", index: "03", label: "INDEX" },
+      { href: "#projects", index: "03", label: "PROJECTS" },
       { href: "#contact", index: "04", label: "CONTACT" },
     ],
     aboutSection: {
@@ -156,10 +171,67 @@ export const dictionaries: Record<Locale, Dictionary> = {
       closingNote:
         "I'm early in my career and intentional about it — every capability here is something I have already shipped in a production environment, and the list grows with each project. Open to collaborations, freelance work, and a first full-time engineering role.",
     },
+    projectsSection: {
+      eyebrow: "SELECTED WORK",
+      title: "Projects",
+      lead: "A closer look at the production work I delivered during my engineering internship — built in a small team, shipped on real release cycles, and used by real testers.",
+      project: {
+        kicker: "(01)",
+        name: "Cross-platform healthcare comparator app",
+        role: "Software Engineer Intern · Careexpand",
+        period: "Mar 2026 — Jun 2026",
+        summary:
+          "A medication and pharmacy comparator for the Puerto Rico market, built as a single codebase that ships to iOS, Android and desktop through Tauri. I owned several user-facing flows end to end and helped move the project from staging into the hands of real beta testers via TestFlight.",
+        features: [
+          {
+            label: "Google OAuth sign-in",
+            detail:
+              "Implemented the full Google OAuth 2.0 flow across web and the Tauri mobile shell, including token exchange and session persistence.",
+          },
+          {
+            label: "Home & notifications",
+            detail:
+              "Built the home screen and a scheduled notifications system that delivers reminders through native iOS / Android push.",
+          },
+          {
+            label: "Pharmacy search",
+            detail:
+              "Geo-aware pharmacy finder with map view, distance filters and address-based fallback so users without GPS still get useful results.",
+          },
+          {
+            label: "Drug pricing & history",
+            detail:
+              "Surfaces medication pricing per pharmacy and a prescription history view that pulls from the SaaS backend.",
+          },
+          {
+            label: "Mobile delivery via Tauri",
+            detail:
+              "Wrapped the web app into iOS and Android builds with Tauri, managed TestFlight betas and collaborated on the CI/CD pipeline that automates each release.",
+          },
+          {
+            label: "QA in staging",
+            detail:
+              "Ran functional QA in the staging environment before every demo to catch regressions while they were still cheap to fix.",
+          },
+        ],
+        stack: [
+          "React",
+          "TypeScript",
+          "Tauri",
+          "iOS",
+          "Android",
+          "OAuth 2.0",
+          "Push notifications",
+          "TestFlight",
+          "GitHub Actions",
+        ],
+        scrollHint: "Scroll to walk through the app",
+      },
+    },
     sectionPlaceholders: {
       about: "This section is being built and will be published soon.",
       services: "Services details are coming soon.",
-      index: "Index details are coming soon.",
+      projects: "Projects details are coming soon.",
       contact: "Contact section coming soon.",
     },
     info: [
@@ -179,7 +251,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     topNav: [
       { href: "#about", index: "01", label: "SOBRE MI" },
       { href: "#services", index: "02", label: "SERVICIOS" },
-      { href: "#index", index: "03", label: "INDICE" },
+      { href: "#projects", index: "03", label: "PROYECTOS" },
       { href: "#contact", index: "04", label: "CONTACTO" },
     ],
     aboutSection: {
@@ -279,10 +351,67 @@ export const dictionaries: Record<Locale, Dictionary> = {
       closingNote:
         "Estoy al inicio de mi carrera y lo asumo con intencion: cada capacidad aqui es algo que ya he entregado en un entorno de produccion, y la lista crece con cada proyecto. Abierto a colaboraciones, trabajo freelance y un primer rol full-time como ingeniero.",
     },
+    projectsSection: {
+      eyebrow: "TRABAJO SELECCIONADO",
+      title: "Proyectos",
+      lead: "Una mirada en detalle al trabajo de produccion que entregue durante mis practicas de ingenieria: construido en un equipo pequeno, enviado en ciclos reales de release y usado por testers reales.",
+      project: {
+        kicker: "(01)",
+        name: "App comparador de salud multiplataforma",
+        role: "Software Engineer Intern · Careexpand",
+        period: "Marzo 2026 — Junio 2026",
+        summary:
+          "Un comparador de medicamentos y farmacias para el mercado de Puerto Rico, construido como un unico codigo que se envia a iOS, Android y escritorio a traves de Tauri. Desarrolle de principio a fin varios flujos de usuario y ayude a llevar el proyecto de staging a las manos de testers reales via TestFlight.",
+        features: [
+          {
+            label: "Login con Google OAuth",
+            detail:
+              "Implemente el flujo completo de Google OAuth 2.0 en web y en el contenedor movil de Tauri, incluyendo intercambio de tokens y persistencia de sesion.",
+          },
+          {
+            label: "Home y notificaciones",
+            detail:
+              "Construi la pantalla principal y un sistema de notificaciones programadas que entrega recordatorios mediante push nativo de iOS y Android.",
+          },
+          {
+            label: "Buscador de farmacias",
+            detail:
+              "Buscador con geolocalizacion y vista de mapa, filtros por distancia y fallback por direccion para usuarios sin GPS.",
+          },
+          {
+            label: "Precios e historial",
+            detail:
+              "Muestra el precio del medicamento por farmacia y un historial de recetas que se nutre del backend SaaS.",
+          },
+          {
+            label: "Entrega movil con Tauri",
+            detail:
+              "Empaquete la app web en builds de iOS y Android con Tauri, gestione betas con TestFlight y colabore en el pipeline de CI/CD que automatiza cada release.",
+          },
+          {
+            label: "QA en staging",
+            detail:
+              "Ejecute QA funcional en staging antes de cada demo para detectar regresiones cuando aun eran baratas de corregir.",
+          },
+        ],
+        stack: [
+          "React",
+          "TypeScript",
+          "Tauri",
+          "iOS",
+          "Android",
+          "OAuth 2.0",
+          "Notificaciones push",
+          "TestFlight",
+          "GitHub Actions",
+        ],
+        scrollHint: "Desplazate para recorrer la app",
+      },
+    },
     sectionPlaceholders: {
       about: "Esta seccion esta en construccion y se publicara pronto.",
       services: "Los detalles de servicios estaran disponibles pronto.",
-      index: "Los detalles de indices estaran disponibles pronto.",
+      projects: "Los detalles de proyectos estaran disponibles pronto.",
       contact: "La seccion de contacto estara disponible pronto.",
     },
     info: [

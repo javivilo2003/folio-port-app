@@ -25,7 +25,7 @@ export function HeroGlbBackground({ modelUrl }: HeroGlbBackgroundProps) {
       camera={{ position: [0, 0.1, 4.5], fov: 38 }}
       gl={{ alpha: false, antialias: true }}
       onCreated={({ gl }) => {
-        gl.setClearColor("#000000", 1)
+        gl.setClearColor("#0B0B0B", 1)
       }}
     >
       <ambientLight intensity={0.95} />

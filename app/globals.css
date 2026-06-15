@@ -37,9 +37,9 @@
     "JetBrains Mono", "SFMono-Regular", "Menlo", "Monaco", "Courier New", monospace;
   --font-prata:
     "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --background: oklch(0.145 0 0);
+  --background: #0B0B0B;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
+  --card: #0B0B0B;
   --card-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
   --primary-foreground: oklch(0.145 0 0);
@@ -63,7 +63,8 @@
   }
 
   body {
-    @apply bg-black text-[#E8DCC4];
+    background-color: #0B0B0B;
+    @apply text-[#E8DCC4];
   }
 }
 
