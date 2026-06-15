@@ -497,17 +497,17 @@ export default function Home() {
   }, [locale])
 
   return (
-    <div className="min-h-screen bg-[#0B0B0B] p-[4px] text-[#E8DCC4]">
+    <div className="min-h-screen bg-[#0B0B0B] p-1 text-[#E8DCC4]">
       <LenisScrollSync />
 
-      <div className="mx-auto min-h-[calc(100vh-8px)] w-full max-w-[1860px] bg-[#0B0B0B]">
+      <div className="mx-auto min-h-[calc(100vh-8px)] w-full max-w-465 bg-[#0B0B0B]">
         <div className="sticky top-0 z-50 hidden bg-[#0B0B0B]/95 lg:block">
-          <div className="mx-[4.55%] flex min-h-[72px] items-center justify-between border-b border-[#3B342A]">
+          <div className="mx-[4.55%] flex min-h-18 items-center justify-between border-b border-[#3B342A]">
             <button
               type="button"
               onClick={toggleLocale}
               aria-label={`Switch language to ${dictionary.switchLabel}`}
-              className="font-utility text-[12px] tracking-[0] text-[#E8DCC4] underline decoration-[11%] underline-offset-1 transition-colors hover:text-white"
+              className="font-utility text-[12px] tracking-normal text-[#E8DCC4] underline decoration-[11%] underline-offset-1 transition-colors hover:text-white"
             >
               <span data-scramble-label>{dictionary.switchLabel}</span>
             </button>
@@ -516,7 +516,7 @@ export default function Home() {
               ref={navBrandRef}
               href="#page-00"
               onClick={(event) => handleNavClick(event, "#page-00")}
-              className="invisible absolute left-1/2 -translate-x-1/2 font-display text-[clamp(20px,1.32vw,30px)] tracking-[-0.025em] text-[#E8DCC4]/95 opacity-0 transition-colors hover:text-white"
+              className="invisible absolute left-1/2 -translate-x-1/2 font-display text-[clamp(20px,1.32vw,30px)] tracking-tight text-[#E8DCC4]/95 opacity-0 transition-colors hover:text-white"
             >
               {dictionary.brand.toUpperCase()}
             </a>
@@ -532,11 +532,11 @@ export default function Home() {
                     <Link
                       href={item.href}
                       onClick={(event) => handleNavClick(event, item.href)}
-                      className={`flex h-[30px] items-center justify-center whitespace-nowrap px-[8px] font-utility text-[12px] tracking-[0] text-[#E8DCC4] transition-colors hover:text-white ${
-                        isSpanish && item.index === "01" ? "min-w-[110px]" : "min-w-[94px]"
+                      className={`flex h-7.5 items-center justify-center whitespace-nowrap px-2 font-utility text-[12px] tracking-normal text-[#E8DCC4] transition-colors hover:text-white ${
+                        isSpanish && item.index === "01" ? "min-w-27.5" : "min-w-23.5"
                       }`}
                     >
-                      <span data-scramble-label className="mr-[6px] text-[14px] text-[#736343]">{item.index}</span>
+                      <span data-scramble-label className="mr-1.5 text-[14px] text-[#736343]">{item.index}</span>
                       <span data-scramble-label>{item.label}</span>
                     </Link>
                   </li>
@@ -547,7 +547,7 @@ export default function Home() {
         </div>
 
         <section id="page-00" className="relative hidden min-h-[calc(100vh-10px)] lg:block">
-          <div className="absolute inset-0 -translate-y-[44px]">
+          <div className="absolute inset-0 -translate-y-11">
             <div className="absolute left-[4.5718%] right-[4.5139%] top-[95.0761%] border-b border-[#3B342A]" />
 
             <span className="pointer-events-none absolute left-[14.294%] top-[15.7565%] h-5 w-5 border-l border-t border-[#D0C2A8]/85" />
@@ -558,8 +558,8 @@ export default function Home() {
             <section className="absolute left-[9.7222%] right-[37.6157%] top-[31.7816%] grid grid-cols-4 gap-[2.4vw]">
               {dictionary.info.map((item) => (
                 <div key={item.label} className="font-utility">
-                  <p data-scramble-label className="text-[14px] tracking-[0] text-[#736343]">{item.label}</p>
-                  <p data-scramble-label className="mt-[6px] text-[14px] tracking-[0] text-[#E8DCC4]">{item.value}</p>
+                  <p data-scramble-label className="text-[14px] tracking-normal text-[#736343]">{item.label}</p>
+                  <p data-scramble-label className="mt-1.5 text-[14px] tracking-normal text-[#E8DCC4]">{item.value}</p>
                 </div>
               ))}
             </section>
@@ -579,7 +579,7 @@ export default function Home() {
               type="button"
               onClick={toggleLocale}
               aria-label={`Switch language to ${dictionary.switchLabel}`}
-              className="font-utility text-[12px] tracking-[0] text-[#E8DCC4] underline decoration-[11%]"
+              className="font-utility text-[12px] tracking-normal text-[#E8DCC4] underline decoration-[11%]"
             >
               <span data-scramble-label>{dictionary.switchLabel}</span>
             </button>
@@ -608,7 +608,7 @@ export default function Home() {
           <div className="px-[2.0856%]">
             <p
               ref={aboutIntroLeadRef}
-              className="mt-8 max-w-[980px] text-balance text-[clamp(16px,1.02vw,19px)] leading-[1.65] text-[#7B6F5A] lg:max-w-[1120px]"
+              className="mt-8 max-w-245 text-balance text-[clamp(16px,1.02vw,19px)] leading-[1.65] text-[#7B6F5A] lg:max-w-280"
             >
               <span className="text-[#E8DCC4]">{dictionary.aboutSection.introLines[0]}</span>{" "}
               <span className="text-[#7B6F5A]">{dictionary.aboutSection.introLines[1]}</span>
@@ -616,7 +616,7 @@ export default function Home() {
 
             <div id="about" className="h-0 translate-y-14 scroll-mt-28" />
 
-            <div data-scramble-group className="mt-28 flex items-center gap-4 font-utility text-[13px] tracking-[0] text-[#7B6F5A] lg:mt-36 lg:ml-[5.4%]">
+            <div data-scramble-group className="mt-28 flex items-center gap-4 font-utility text-[13px] tracking-normal text-[#7B6F5A] lg:mt-36 lg:ml-[5.4%]">
               <span data-scramble-label className="text-[#E8DCC4]">{aboutNavItem?.index ?? "01"}</span>
               <span className="h-px w-14 bg-[#3B342A]" />
               <span data-scramble-label>{aboutNavItem?.label ?? "ABOUT"}</span>
@@ -625,7 +625,7 @@ export default function Home() {
             <div ref={aboutPinRef} className="mt-20 lg:mt-40">
               <h2
                 ref={aboutHeadlineRef}
-                className="font-display mx-auto max-w-[760px] px-[0.1%] text-left text-[clamp(28px,2.7vw,48px)] leading-[1.08] tracking-[-0.02em] text-[#E8DCC4]"
+                className="font-display mx-auto max-w-190 px-[0.1%] text-left text-[clamp(28px,2.7vw,48px)] leading-[1.08] tracking-[-0.02em] text-[#E8DCC4]"
               >
                 {dictionary.aboutSection.statementLines.map((line) => (
                   <span key={line} data-about-line className="block will-change-transform">
@@ -662,14 +662,14 @@ export default function Home() {
                     <p data-scramble-label className="font-utility text-[12px] tracking-[0.08em] text-[#4B4335]">
                       {dictionary.aboutSection.currentlyLabel}
                     </p>
-                    <p className="mt-2 max-w-[470px]">{dictionary.aboutSection.currentlyValue}</p>
+                    <p className="mt-2 max-w-117.5">{dictionary.aboutSection.currentlyValue}</p>
                   </div>
 
                   <div>
                     <p data-scramble-label className="font-utility text-[12px] tracking-[0.08em] text-[#4B4335]">
                       {dictionary.aboutSection.stackLabel}
                     </p>
-                    <p className="mt-2 max-w-[520px]">
+                    <p className="mt-2 max-w-130">
                       {dictionary.aboutSection.stackItems.join(" · ")}
                     </p>
                   </div>
@@ -678,7 +678,7 @@ export default function Home() {
                     <p data-scramble-label className="font-utility text-[12px] tracking-[0.08em] text-[#4B4335]">
                       {dictionary.aboutSection.toolingLabel}
                     </p>
-                    <p className="mt-2 max-w-[520px]">
+                    <p className="mt-2 max-w-130">
                       {dictionary.aboutSection.toolingItems.join(" · ")}
                     </p>
                   </div>
@@ -694,7 +694,7 @@ export default function Home() {
           className="scroll-mt-28 pb-24 pt-10 lg:pb-36 lg:pt-16"
         >
           <div className="px-6 lg:px-[9.0856%]">
-            <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-[0] text-[#7B6F5A] lg:ml-[-1.6%]">
+            <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-normal text-[#7B6F5A] lg:ml-[-1.6%]">
               <span data-scramble-label className="text-[#E8DCC4]">{servicesNavItem?.index ?? "02"}</span>
               <span className="h-px w-14 bg-[#3B342A]" />
               <span data-scramble-label>{servicesNavItem?.label ?? "SERVICES"}</span>
@@ -702,7 +702,7 @@ export default function Home() {
 
             <p
               ref={servicesLeadRef}
-              className="mt-10 max-w-[920px] text-balance text-[clamp(20px,1.7vw,30px)] leading-[1.4] tracking-[-0.01em] text-[#7B6F5A] lg:mt-12 lg:ml-[8.2%]"
+              className="mt-10 max-w-230 text-balance text-[clamp(20px,1.7vw,30px)] leading-[1.4] tracking-[-0.01em] text-[#7B6F5A] lg:mt-12 lg:ml-[8.2%]"
             >
               {dictionary.servicesSection.lead}
             </p>
@@ -739,7 +739,7 @@ export default function Home() {
                     </h3>
                     <p
                       data-service-desc
-                      className="mt-4 max-w-[560px] text-[clamp(15px,0.98vw,17px)] leading-[1.7] text-[#7B6F5A] will-change-transform"
+                      className="mt-4 max-w-140 text-[clamp(15px,0.98vw,17px)] leading-[1.7] text-[#7B6F5A] will-change-transform"
                     >
                       {item.description}
                     </p>
@@ -750,7 +750,7 @@ export default function Home() {
                       <li
                         key={capability}
                         data-service-cap
-                        className="whitespace-nowrap rounded-full border border-[#3B342A] px-[11px] py-[5px] text-[#A99C87] transition-colors duration-300 will-change-transform group-hover:border-[#5A5040] group-hover:text-[#D7CCB4]"
+                        className="whitespace-nowrap rounded-full border border-[#3B342A] px-2.75 py-1.25 text-[#A99C87] transition-colors duration-300 will-change-transform group-hover:border-[#5A5040] group-hover:text-[#D7CCB4]"
                       >
                         {capability}
                       </li>
@@ -760,7 +760,7 @@ export default function Home() {
               ))}
             </div>
 
-            <p className="mt-16 max-w-[680px] font-utility text-[12px] leading-[1.85] tracking-[0.04em] text-[#4B4335]">
+            <p className="mt-16 max-w-170 font-utility text-[12px] leading-[1.85] tracking-[0.04em] text-[#4B4335]">
               {dictionary.servicesSection.closingNote}
             </p>
           </div>
@@ -768,7 +768,7 @@ export default function Home() {
         
         <section id="projects" className="scroll-mt-28 pb-12 pt-10 lg:pt-16">
           <div className="px-6 lg:px-[9.0856%]">
-            <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-[0] text-[#7B6F5A] lg:ml-[-1.6%]">
+            <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-normal text-[#7B6F5A] lg:ml-[-1.6%]">
               <span data-scramble-label className="text-[#E8DCC4]">{projectsNavItem?.index ?? "03"}</span>
               <span className="h-px w-14 bg-[#3B342A]" />
               <span data-scramble-label>{projectsNavItem?.label ?? "PROJECTS"}</span>
@@ -776,7 +776,7 @@ export default function Home() {
             <h2 className="font-display mt-5 text-[clamp(40px,3.85vw,64px)] leading-[1.08] tracking-[-0.02em] text-[#E8DCC4]">
               {dictionary.projectsSection.title}
             </h2>
-            <p className="mt-10 max-w-[760px] text-balance text-[clamp(16px,1.02vw,19px)] leading-[1.65] text-[#7B6F5A] lg:mt-12 lg:ml-[8.2%]">
+            <p className="mt-10 max-w-190 text-balance text-[clamp(16px,1.02vw,19px)] leading-[1.65] text-[#7B6F5A] lg:mt-12 lg:ml-[8.2%]">
               {dictionary.projectsSection.lead}
             </p>
           </div>
@@ -790,7 +790,7 @@ export default function Home() {
           <div className="sticky top-0 flex h-screen w-full flex-col overflow-hidden bg-[#0B0B0B]">
             {/* Push the eyebrow row below the sticky page navbar (desktop)
                 — on mobile there is no navbar so we only need a small inset. */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between px-6 pt-7 lg:px-[9.0856%] lg:pt-[104px]">
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between px-6 pt-7 lg:px-[9.0856%] lg:pt-26">
               <div data-scramble-group className="flex items-baseline gap-4 font-utility text-[12px] tracking-[0.14em] text-[#7B6F5A]">
                 <span data-scramble-label className="text-[#E8DCC4]">
                   {dictionary.projectsSection.project.kicker}
@@ -807,12 +807,12 @@ export default function Home() {
                 navbar) and more bottom inset (the stacked caption block is
                 taller); desktop reserves the navbar height up top and a
                 shorter caption block at the bottom. */}
-            <div className="absolute inset-x-0 top-[64px] bottom-[300px] lg:top-[140px] lg:bottom-[190px]">
+            <div className="absolute inset-x-0 top-16 bottom-75 lg:top-35 lg:bottom-47.5">
               <ProjectsShowcase progressRef={projectsProgressRef} />
             </div>
 
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 grid grid-cols-1 gap-6 px-6 pb-12 lg:grid-cols-[1fr_auto_1fr] lg:items-end lg:gap-12 lg:px-[9.0856%] lg:pb-16">
-              <div className="max-w-[420px]">
+              <div className="max-w-105">
                 <p className="font-utility text-[11px] tracking-[0.18em] text-[#4B4335]">
                   {dictionary.projectsSection.project.role}
                 </p>
@@ -831,15 +831,15 @@ export default function Home() {
                 <span className="mt-2">{dictionary.projectsSection.project.scrollHint.toUpperCase()}</span>
               </div>
 
-              <div className="max-w-[420px] lg:ml-auto lg:text-right">
+              <div className="max-w-105 lg:ml-auto lg:text-right">
                 <p className="text-[clamp(14px,0.95vw,16px)] leading-[1.65] text-[#7B6F5A]">
                   {dictionary.projectsSection.project.summary}
                 </p>
               </div>
             </div>
 
-            <span className="pointer-events-none absolute left-[4.5%] top-[150px] hidden h-5 w-5 border-l border-t border-[#3B342A] lg:block" />
-            <span className="pointer-events-none absolute right-[4.5%] top-[150px] hidden h-5 w-5 border-r border-t border-[#3B342A] lg:block" />
+            <span className="pointer-events-none absolute left-[4.5%] top-37.5 hidden h-5 w-5 border-l border-t border-[#3B342A] lg:block" />
+            <span className="pointer-events-none absolute right-[4.5%] top-37.5 hidden h-5 w-5 border-r border-t border-[#3B342A] lg:block" />
             <span className="pointer-events-none absolute bottom-[8%] left-[4.5%] hidden h-5 w-5 border-b border-l border-[#3B342A] lg:block" />
             <span className="pointer-events-none absolute bottom-[8%] right-[4.5%] hidden h-5 w-5 border-b border-r border-[#3B342A] lg:block" />
           </div>
@@ -856,7 +856,7 @@ export default function Home() {
                   {dictionary.projectsSection.project.stack.map((item) => (
                     <li
                       key={item}
-                      className="whitespace-nowrap rounded-full border border-[#3B342A] px-[11px] py-[5px] text-[#A99C87]"
+                      className="whitespace-nowrap rounded-full border border-[#3B342A] px-2.75 py-1.25 text-[#A99C87]"
                     >
                       {item}
                     </li>
@@ -870,7 +870,7 @@ export default function Home() {
                 <ul className="mt-6 divide-y divide-[#3B342A]">
                   {dictionary.projectsSection.project.features.map((feature) => (
                     <li key={feature.label} className="grid grid-cols-1 gap-3 py-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-10">
-                      <p className="font-display text-[clamp(16px,1.05vw,19px)] leading-[1.25] tracking-[-0.01em] text-[#E8DCC4]">
+                      <p className="font-display text-[clamp(16px,1.05vw,19px)] leading-tight tracking-[-0.01em] text-[#E8DCC4]">
                         {feature.label}
                       </p>
                       <p className="text-[clamp(14px,0.92vw,16px)] leading-[1.65] text-[#7B6F5A]">
@@ -886,7 +886,7 @@ export default function Home() {
 
         <section id="contact" className="scroll-mt-28 py-20 lg:min-h-[56vh] lg:py-28">
           <div className="px-6 lg:px-[9.0856%]">
-            <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-[0] text-[#7B6F5A] lg:ml-[-1.6%]">
+            <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-normal text-[#7B6F5A] lg:ml-[-1.6%]">
               <span data-scramble-label className="text-[#E8DCC4]">{contactNavItem?.index ?? "04"}</span>
               <span className="h-px w-14 bg-[#3B342A]" />
               <span data-scramble-label>{contactNavItem?.label ?? "CONTACT"}</span>
@@ -894,7 +894,7 @@ export default function Home() {
             <h2 className="font-display mt-5 text-[clamp(40px,3.85vw,64px)] leading-[1.08] tracking-[-0.02em] text-[#E8DCC4]">
               {contactNavItem?.label ?? "CONTACT"}
             </h2>
-            <p className="font-utility mt-8 max-w-[780px] text-[13px] leading-[1.8] tracking-[0.08em] text-[#A99C87]">
+            <p className="font-utility mt-8 max-w-195 text-[13px] leading-[1.8] tracking-[0.08em] text-[#A99C87]">
               {dictionary.sectionPlaceholders.contact}
             </p>
           </div>
