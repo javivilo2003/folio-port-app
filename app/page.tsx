@@ -9,7 +9,7 @@ import { SplitText } from "gsap/SplitText"
 import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-import { LenisScrollSync } from "@/components/motion/lenis-scroll-sync"
+import { LenisScrollSync, getLenis } from "@/components/motion/lenis-scroll-sync"
 import { ProjectsShowcase, SHOWCASE_PHONE_COUNT } from "@/components/three/projects-showcase"
 import { dictionaries, type Locale } from "@/lib/i18n"
 
@@ -94,6 +94,24 @@ export default function Home() {
       return
     }
 
+    const clearHash = () => {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search)
+    }
+
+    // Drive the scroll through Lenis so it works the same on touch devices,
+    // where animating window.scrollTo directly fights Lenis' own rAF loop and
+    // leaves the button doing nothing. Fall back to GSAP if Lenis isn't ready.
+    const lenis = getLenis()
+    if (lenis) {
+      gsap.killTweensOf(window)
+      lenis.scrollTo(0, {
+        duration: 0.9,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+        onComplete: clearHash,
+      })
+      return
+    }
+
     gsap.killTweensOf(window)
 
     gsap.to(window, {
@@ -103,9 +121,7 @@ export default function Home() {
         y: 0,
         autoKill: true,
       },
-      onComplete: () => {
-        window.history.replaceState(null, "", window.location.pathname + window.location.search)
-      },
+      onComplete: clearHash,
     })
   }
 
@@ -516,7 +532,7 @@ export default function Home() {
         if (activeIndex !== projectsActiveIndexRef.current) {
           projectsActiveIndexRef.current = activeIndex
           if (labelEl) {
-            labelEl.textContent = `SCREEN ${String(activeIndex + 1).padStart(2, "0")} / ${String(
+            labelEl.textContent = `${dictionary.projectsSection.screenLabel} ${String(activeIndex + 1).padStart(2, "0")} / ${String(
               SHOWCASE_PHONE_COUNT,
             ).padStart(2, "0")}`
           }
@@ -542,7 +558,7 @@ export default function Home() {
             <button
               type="button"
               onClick={toggleLocale}
-              aria-label={`Switch language to ${dictionary.switchLabel}`}
+              aria-label={`${dictionary.switchAria} ${dictionary.switchLabel}`}
               className="font-utility text-[12px] tracking-normal text-[#E8DCC4] underline decoration-[11%] underline-offset-1 transition-colors hover:text-white"
             >
               <span data-scramble-label>{dictionary.switchLabel}</span>
@@ -614,12 +630,12 @@ export default function Home() {
             <button
               type="button"
               onClick={toggleLocale}
-              aria-label={`Switch language to ${dictionary.switchLabel}`}
+              aria-label={`${dictionary.switchAria} ${dictionary.switchLabel}`}
               className="font-utility text-[12px] tracking-normal text-[#E8DCC4] underline decoration-[11%]"
             >
               <span data-scramble-label>{dictionary.switchLabel}</span>
             </button>
-            <span data-scramble-label className="font-utility text-[12px] text-[#736343]">PORTFOLIO</span>
+            <span data-scramble-label className="font-utility text-[12px] text-[#736343]">{dictionary.portfolioLabel}</span>
           </div>
 
           <div className="mt-5 border-b border-[#3B342A]" />
@@ -643,11 +659,12 @@ export default function Home() {
         <section className="py-10 lg:py-14">
           <div className="px-[2.0856%]">
             <p
+              key={locale}
               ref={aboutIntroLeadRef}
               className="mt-8 max-w-245 text-balance text-[clamp(16px,1.02vw,19px)] leading-[1.65] text-[#7B6F5A] lg:max-w-280"
             >
-              <span className="text-[#E8DCC4]">{dictionary.aboutSection.introLines[0]}</span>{" "}
-              <span className="text-[#7B6F5A]">{dictionary.aboutSection.introLines[1]}</span>
+              <span className="block text-[#E8DCC4]">{dictionary.aboutSection.introLines[0]}</span>
+              <span className="block text-[#7B6F5A]">{dictionary.aboutSection.introLines[1]}</span>
             </p>
 
             <div id="about" className="h-0 translate-y-14 scroll-mt-28" />
@@ -737,6 +754,7 @@ export default function Home() {
             </div>
 
             <p
+              key={locale}
               ref={servicesLeadRef}
               className="mt-10 max-w-230 text-balance text-[clamp(20px,1.7vw,30px)] leading-[1.4] tracking-[-0.01em] text-[#7B6F5A] lg:mt-12 lg:ml-[8.2%]"
             >
@@ -835,7 +853,7 @@ export default function Home() {
                 <span data-scramble-label>{dictionary.projectsSection.eyebrow}</span>
               </div>
               <div className="hidden text-right font-utility text-[12px] tracking-[0.14em] text-[#4B4335] lg:block">
-                <span ref={projectsCaptionLabelRef}>SCREEN 01 / {String(SHOWCASE_PHONE_COUNT).padStart(2, "0")}</span>
+                <span ref={projectsCaptionLabelRef}>{dictionary.projectsSection.screenLabel} 01 / {String(SHOWCASE_PHONE_COUNT).padStart(2, "0")}</span>
               </div>
             </div>
 
@@ -886,7 +904,7 @@ export default function Home() {
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
               <div>
                 <p data-scramble-label className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">
-                  STACK
+                  {dictionary.projectsSection.stackLabel}
                 </p>
                 <ul className="mt-4 flex flex-wrap gap-x-2.5 gap-y-2.5 font-utility text-[12px] tracking-[0.02em]">
                   {dictionary.projectsSection.project.stack.map((item) => (
@@ -901,7 +919,7 @@ export default function Home() {
               </div>
               <div>
                 <p data-scramble-label className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">
-                  WHAT I BUILT
+                  {dictionary.projectsSection.builtLabel}
                 </p>
                 <ul className="mt-6 divide-y divide-[#3B342A]">
                   {dictionary.projectsSection.project.features.map((feature) => (
@@ -919,7 +937,7 @@ export default function Home() {
             </div>
 
             <div className="mt-16 flex items-center gap-5 border-t border-[#3B342A] pt-8 lg:mt-20 lg:pt-10">
-              <span className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">(MORE SOON)</span>
+              <span className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">{dictionary.projectsSection.moreLabel}</span>
               <p className="max-w-155 text-[clamp(13px,0.9vw,15px)] leading-[1.65] text-[#7B6F5A]">
                 {dictionary.projectsSection.expandNote}
               </p>
@@ -1009,7 +1027,7 @@ export default function Home() {
                 onClick={handleBackToTop}
                 className="font-utility text-[11px] tracking-[0.18em] text-[#736343] transition-colors hover:text-[#A99C87]"
               >
-                BACK TO TOP ↑
+                {dictionary.contactSection.backToTop}
               </a>
             </div>
           </div>

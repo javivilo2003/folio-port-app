@@ -6,6 +6,14 @@ import Lenis from "lenis"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
+// Shared handle to the single Lenis instance so imperative scrolls (nav jumps,
+// back-to-top) can go through Lenis instead of fighting it via window.scrollTo.
+let activeLenis: Lenis | null = null
+
+export function getLenis(): Lenis | null {
+  return activeLenis
+}
+
 export function LenisScrollSync() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -16,6 +24,7 @@ export function LenisScrollSync() {
       wheelMultiplier: 0.95,
       touchMultiplier: 1.25,
     })
+    activeLenis = lenis
 
     lenis.on("scroll", ScrollTrigger.update)
 
@@ -44,6 +53,9 @@ export function LenisScrollSync() {
       resizeObserver.disconnect()
       gsap.ticker.remove(update)
       lenis.destroy()
+      if (activeLenis === lenis) {
+        activeLenis = null
+      }
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
     }
   }, [])

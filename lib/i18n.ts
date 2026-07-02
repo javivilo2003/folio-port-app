@@ -14,6 +14,8 @@ type InfoItem = {
 export type Dictionary = {
   brand: string
   switchLabel: string
+  switchAria: string
+  portfolioLabel: string
   topNav: TopNavItem[]
   aboutSection: {
     introLines: string[]
@@ -40,6 +42,10 @@ export type Dictionary = {
     eyebrow: string
     title: string
     lead: string
+    screenLabel: string
+    stackLabel: string
+    builtLabel: string
+    moreLabel: string
     project: {
       kicker: string
       name: string
@@ -62,6 +68,7 @@ export type Dictionary = {
     channelsLabel: string
     channels: { label: string; value: string; href: string }[]
     footerNote: string
+    backToTop: string
   }
   sectionPlaceholders: {
     about: string
@@ -80,6 +87,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
   en: {
     brand: "Javier Viloria",
     switchLabel: "ES",
+    switchAria: "Switch language to",
+    portfolioLabel: "PORTFOLIO",
     topNav: [
       { href: "#about", index: "01", label: "ABOUT" },
       { href: "#services", index: "02", label: "SERVICES" },
@@ -88,8 +97,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     aboutSection: {
       introLines: [
-        "Junior software developer with a strong frontend eye and a practical backend mindset.",
-        "I build clean, reliable software that connects solid technical execution with real business value. I'm especially interested in creating products that are simple to use, well-structured, and built to solve real problems.",
+        "Junior software developer specializing in frontend, with solid backend fundamentals.",
+        "I build reliable, maintainable software that connects sound technical execution to real product value, with a focus on systems that are clear to use, well-structured, and built around real requirements.",
       ],
       statementLines: [
         "I'm a software developer focused on turning",
@@ -187,6 +196,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "WEB APP WITH TAURI",
       title: "Projects",
       lead: "A closer look at the production work I delivered during my engineering internship — built in a small team, shipped on real release cycles, and used by real testers.",
+      screenLabel: "SCREEN",
+      stackLabel: "STACK",
+      builtLabel: "WHAT I BUILT",
+      moreLabel: "(MORE SOON)",
       project: {
         kicker: "(01)",
         name: "Cross-platform healthcare comparator app",
@@ -255,6 +268,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { label: "GitHub", value: "@javivilo2003", href: "https://github.com/javivilo2003" },
       ],
       footerNote: "Designed & built by Javier Viloria — 2026",
+      backToTop: "BACK TO TOP ↑",
     },
     sectionPlaceholders: {
       about: "This section is being built and will be published soon.",
@@ -276,6 +290,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
   es: {
     brand: "Javier Viloria",
     switchLabel: "EN",
+    switchAria: "Cambiar idioma a",
+    portfolioLabel: "PORTAFOLIO",
     topNav: [
       { href: "#about", index: "01", label: "SOBRE MI" },
       { href: "#services", index: "02", label: "SERVICIOS" },
@@ -284,8 +300,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     aboutSection: {
       introLines: [
-        "Desarrollador de software junior con una fuerte mirada de frontend y una mentalidad practica de backend.",
-        "Construyo software limpio y confiable que conecta una ejecucion tecnica solida con valor real de negocio. Me interesa especialmente crear productos simples de usar, bien estructurados y pensados para resolver problemas reales.",
+        "Desarrollador de software junior especializado en frontend y con bases solidas de backend.",
+        "Construyo software fiable y mantenible que conecta una ejecucion tecnica solida con valor real de producto, centrado en sistemas claros de usar, bien estructurados y construidos en torno a requisitos reales.",
       ],
       statementLines: [
         "Soy un desarrollador de software enfocado en convertir",
@@ -383,6 +399,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "APP WEB CON TAURI",
       title: "Proyectos",
       lead: "Una mirada en detalle al trabajo de produccion que entregue durante mis practicas de ingenieria: construido en un equipo pequeno, enviado en ciclos reales de release y usado por testers reales.",
+      screenLabel: "PANTALLA",
+      stackLabel: "STACK",
+      builtLabel: "LO QUE CONSTRUI",
+      moreLabel: "(MAS PRONTO)",
       project: {
         kicker: "(01)",
         name: "App comparador de salud multiplataforma",
@@ -451,6 +471,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
         { label: "GitHub", value: "@javivilo2003", href: "https://github.com/javivilo2003" },
       ],
       footerNote: "Disenado y construido por Javier Viloria — 2026",
+      backToTop: "VOLVER ARRIBA ↑",
     },
     sectionPlaceholders: {
       about: "Esta seccion esta en construccion y se publicara pronto.",
