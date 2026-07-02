@@ -28,6 +28,9 @@ const CHANNEL_ICONS: Record<string, React.ReactNode> = {
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("en")
+  const [menuOpen, setMenuOpen] = useState(false)
+  const mobileNavBrandRef = useRef<HTMLAnchorElement>(null)
+  const mobileHeroNameRef = useRef<HTMLHeadingElement>(null)
   const aboutIntroLeadRef = useRef<HTMLParagraphElement>(null)
   const aboutHeadlineRef = useRef<HTMLHeadingElement>(null)
   const aboutPinRef = useRef<HTMLDivElement>(null)
@@ -122,6 +125,51 @@ export default function Home() {
         autoKill: true,
       },
       onComplete: clearHash,
+    })
+  }
+
+  // Mobile-only nav handler for the dropdown menu. Closes the menu, then routes
+  // the scroll through Lenis (with a fallback to GSAP) so it behaves the same on
+  // touch devices, leaving room under the ~57px sticky bar via the offset.
+  function handleMobileNavClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
+    event.preventDefault()
+    setMenuOpen(false)
+
+    if (!href.startsWith("#")) {
+      return
+    }
+
+    const target = document.querySelector<HTMLElement>(href)
+    if (!target) {
+      return
+    }
+
+    const finish = () => {
+      window.history.replaceState(null, "", href)
+    }
+
+    const lenis = getLenis()
+    if (lenis) {
+      gsap.killTweensOf(window)
+      lenis.scrollTo(target, {
+        offset: -64,
+        duration: 1.0,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+        onComplete: finish,
+      })
+      return
+    }
+
+    gsap.killTweensOf(window)
+    gsap.to(window, {
+      duration: 1.0,
+      ease: "power3.out",
+      scrollTo: {
+        y: target,
+        offsetY: 64,
+        autoKill: true,
+      },
+      onComplete: finish,
     })
   }
 
@@ -257,6 +305,69 @@ export default function Home() {
     }
   }, [locale])
 
+  // Mobile mirror of the desktop brand-stick behavior: once the big hero name
+  // scrolls out of view, the brand fades into the sticky top bar. Scoped to
+  // sub-lg widths via matchMedia so it never touches the desktop experience.
+  useEffect(() => {
+    const heroName = mobileHeroNameRef.current
+    const navBrand = mobileNavBrandRef.current
+
+    if (!heroName || !navBrand) {
+      return
+    }
+
+    const media = gsap.matchMedia()
+    const context = gsap.context(() => {
+      media.add("(max-width: 1023px)", () => {
+        const showNavBrand = () => {
+          gsap.to(navBrand, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.42,
+            ease: "power2.out",
+            overwrite: "auto",
+          })
+        }
+
+        const hideNavBrand = () => {
+          gsap.to(navBrand, {
+            autoAlpha: 0,
+            y: -10,
+            duration: 0.34,
+            ease: "power2.out",
+            overwrite: "auto",
+          })
+        }
+
+        gsap.set(navBrand, { autoAlpha: 0, y: -10 })
+
+        const trigger = ScrollTrigger.create({
+          trigger: heroName,
+          start: "bottom top+=57",
+          end: "max",
+          onEnter: showNavBrand,
+          onEnterBack: showNavBrand,
+          onLeaveBack: hideNavBrand,
+        })
+
+        if (trigger.isActive) {
+          showNavBrand()
+        } else {
+          hideNavBrand()
+        }
+
+        return () => {
+          trigger.kill()
+        }
+      })
+    })
+
+    return () => {
+      media.revert()
+      context.revert()
+    }
+  }, [locale])
+
   useEffect(() => {
     const details = aboutDetailsRef.current
     if (!details) {
@@ -333,6 +444,14 @@ export default function Home() {
     if (!labels.length) {
       return
     }
+
+    // Re-capture each label's source text on every run. This effect re-runs on
+    // locale change, by which point React has already swapped the DOM text to
+    // the new language — refreshing the cached original makes labels scramble
+    // to the current language instead of the value captured on first mount.
+    labels.forEach((label) => {
+      label.dataset.scrambleOriginal = label.textContent ?? ""
+    })
 
     const animateLabel = (label: HTMLElement, delay = 0) => {
       const text = label.dataset.scrambleOriginal ?? label.textContent ?? ""
@@ -546,7 +665,7 @@ export default function Home() {
     return () => {
       trigger.kill()
     }
-  }, [locale])
+  }, [locale, dictionary.projectsSection.screenLabel])
 
   return (
     <div className="min-h-screen bg-[#0B0B0B] p-1 text-[#E8DCC4]">
@@ -625,22 +744,74 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh-10px)] flex-col px-6 pb-7 pt-6 lg:hidden">
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              onClick={toggleLocale}
-              aria-label={`${dictionary.switchAria} ${dictionary.switchLabel}`}
-              className="font-utility text-[12px] tracking-normal text-[#E8DCC4] underline decoration-[11%]"
-            >
-              <span data-scramble-label>{dictionary.switchLabel}</span>
-            </button>
-            <span data-scramble-label className="font-utility text-[12px] text-[#736343]">{dictionary.portfolioLabel}</span>
+        {/* Mobile sticky top bar — mirrors the desktop nav: an always-available
+            language toggle, a brand mark that pins in once the hero scrolls
+            past, and a dropdown menu exposing the same nav targets. Scoped to
+            lg:hidden so the desktop bar above is untouched. */}
+        <div className="sticky top-0 z-50 lg:hidden">
+          <div className="relative bg-[#0B0B0B]/95">
+            <div className="flex min-h-14 items-center justify-between border-b border-[#3B342A] px-6">
+              <button
+                type="button"
+                onClick={toggleLocale}
+                aria-label={`${dictionary.switchAria} ${dictionary.switchLabel}`}
+                className="font-utility text-[12px] tracking-normal text-[#E8DCC4] underline decoration-[11%] underline-offset-1"
+              >
+                <span data-scramble-label>{dictionary.switchLabel}</span>
+              </button>
+
+              <a
+                ref={mobileNavBrandRef}
+                href="#top"
+                onClick={handleBackToTop}
+                className="invisible absolute left-1/2 -translate-x-1/2 font-display text-[16px] tracking-tight text-[#E8DCC4]/95 opacity-0"
+              >
+                {dictionary.brand.toUpperCase()}
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setMenuOpen((open) => !open)}
+                aria-expanded={menuOpen}
+                aria-label={dictionary.menuAria}
+                className="flex h-9 w-9 flex-col items-center justify-center gap-[5px]"
+              >
+                <span
+                  className={`h-px w-5 bg-[#E8DCC4] transition-transform duration-300 ${
+                    menuOpen ? "translate-y-[3px] rotate-45" : ""
+                  }`}
+                />
+                <span
+                  className={`h-px w-5 bg-[#E8DCC4] transition-transform duration-300 ${
+                    menuOpen ? "-translate-y-[3px] -rotate-45" : ""
+                  }`}
+                />
+              </button>
+            </div>
+
+            {menuOpen && (
+              <nav className="absolute inset-x-0 top-full border-b border-[#3B342A] bg-[#0B0B0B]">
+                <ul className="flex flex-col px-6">
+                  {dictionary.topNav.map((item) => (
+                    <li key={item.index}>
+                      <Link
+                        href={item.href}
+                        onClick={(event) => handleMobileNavClick(event, item.href)}
+                        className="flex items-center gap-3 border-b border-[#3B342A]/50 py-3.5 font-utility text-[13px] tracking-normal text-[#E8DCC4] transition-colors last:border-b-0 hover:text-white"
+                      >
+                        <span className="text-[13px] text-[#736343]">{item.index}</span>
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
           </div>
+        </div>
 
-          <div className="mt-5 border-b border-[#3B342A]" />
-
-          <div className="mt-12 grid grid-cols-1 gap-6">
+        <section className="flex min-h-[calc(100vh-57px)] flex-col px-6 pb-7 pt-10 lg:hidden">
+          <div className="grid grid-cols-1 gap-6">
             {dictionary.info.map((item) => (
               <div key={item.label} className="font-utility">
                 <p data-scramble-label className="text-[13px] text-[#736343]">{item.label}</p>
@@ -649,7 +820,10 @@ export default function Home() {
             ))}
           </div>
 
-          <h1 className="font-display mt-auto text-[19vw] leading-[0.95] tracking-[-0.02em] text-[#E8DCC4]">
+          <h1
+            ref={mobileHeroNameRef}
+            className="font-display mt-auto text-[19vw] leading-[0.95] tracking-[-0.02em] text-[#E8DCC4]"
+          >
             {dictionary.hero.firstName.toUpperCase()} {dictionary.hero.lastName.toUpperCase()}
           </h1>
 

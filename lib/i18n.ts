@@ -15,6 +15,7 @@ export type Dictionary = {
   brand: string
   switchLabel: string
   switchAria: string
+  menuAria: string
   portfolioLabel: string
   topNav: TopNavItem[]
   aboutSection: {
@@ -88,6 +89,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     brand: "Javier Viloria",
     switchLabel: "ES",
     switchAria: "Switch language to",
+    menuAria: "Toggle navigation menu",
     portfolioLabel: "PORTFOLIO",
     topNav: [
       { href: "#about", index: "01", label: "ABOUT" },
@@ -291,6 +293,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     brand: "Javier Viloria",
     switchLabel: "EN",
     switchAria: "Cambiar idioma a",
+    menuAria: "Abrir menu de navegacion",
     portfolioLabel: "PORTAFOLIO",
     topNav: [
       { href: "#about", index: "01", label: "SOBRE MI" },
