@@ -60,10 +60,17 @@
 
   html {
     @apply font-sans;
+    /* Kill horizontal page scroll from elements that bleed past the viewport
+       (e.g. the oversized hero name, negative-margin rows). `clip` is used
+       instead of `hidden` because it does not create a scroll container, so
+       the sticky navbar and pinned projects showcase keep working. */
+    overflow-x: clip;
   }
 
   body {
     background-color: #0B0B0B;
+    max-width: 100%;
+    overflow-x: clip;
     @apply text-[#E8DCC4];
   }
 }
