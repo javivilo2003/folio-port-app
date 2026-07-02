@@ -15,6 +15,17 @@ import { dictionaries, type Locale } from "@/lib/i18n"
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, ScrambleTextPlugin, SplitText)
 
+// Brand marks for the contact channels, keyed by the channel label in the
+// dictionary. Drawn with currentColor so they inherit the link color + hover.
+const CHANNEL_ICONS: Record<string, React.ReactNode> = {
+  LinkedIn: (
+    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.44-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+  ),
+  GitHub: (
+    <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.28-.01-1.04-.02-2.05-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.82 1.1.82 2.22 0 1.61-.02 2.9-.02 3.29 0 .32.22.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z" />
+  ),
+}
+
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("en")
   const aboutIntroLeadRef = useRef<HTMLParagraphElement>(null)
@@ -69,6 +80,31 @@ export default function Home() {
       },
       onComplete: () => {
         window.history.replaceState(null, "", href)
+      },
+    })
+  }
+
+  // A fast, deliberate pull back to the very top that scrolls through every
+  // section rather than teleporting. Duration is fixed, so from far down the
+  // page it reads as a quick "drag up".
+  function handleBackToTop(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault()
+
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return
+    }
+
+    gsap.killTweensOf(window)
+
+    gsap.to(window, {
+      duration: 0.9,
+      ease: "power3.inOut",
+      scrollTo: {
+        y: 0,
+        autoKill: true,
+      },
+      onComplete: () => {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search)
       },
     })
   }
@@ -881,22 +917,101 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+
+            <div className="mt-16 flex items-center gap-5 border-t border-[#3B342A] pt-8 lg:mt-20 lg:pt-10">
+              <span className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">(MORE SOON)</span>
+              <p className="max-w-155 text-[clamp(13px,0.9vw,15px)] leading-[1.65] text-[#7B6F5A]">
+                {dictionary.projectsSection.expandNote}
+              </p>
+            </div>
           </div>
         </section>
 
-        <section id="contact" className="scroll-mt-28 py-20 lg:min-h-[56vh] lg:py-28">
+        <section id="contact" className="scroll-mt-28 py-16 lg:py-20">
           <div className="px-6 lg:px-[9.0856%]">
             <div data-scramble-group className="flex items-center gap-4 font-utility text-[13px] tracking-normal text-[#7B6F5A] lg:ml-[-1.6%]">
               <span data-scramble-label className="text-[#E8DCC4]">{contactNavItem?.index ?? "04"}</span>
               <span className="h-px w-14 bg-[#3B342A]" />
               <span data-scramble-label>{contactNavItem?.label ?? "CONTACT"}</span>
             </div>
-            <h2 className="font-display mt-5 text-[clamp(40px,3.85vw,64px)] leading-[1.08] tracking-[-0.02em] text-[#E8DCC4]">
-              {contactNavItem?.label ?? "CONTACT"}
-            </h2>
-            <p className="font-utility mt-8 max-w-195 text-[13px] leading-[1.8] tracking-[0.08em] text-[#A99C87]">
-              {dictionary.sectionPlaceholders.contact}
-            </p>
+
+            <div className="mt-7 grid grid-cols-1 gap-8 lg:mt-8 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
+              <div>
+                <h2 className="font-display whitespace-pre-line text-[clamp(32px,3vw,50px)] leading-[1.03] tracking-[-0.02em] text-[#E8DCC4]">
+                  {dictionary.contactSection.heading}
+                </h2>
+                <p className="mt-5 max-w-155 text-[clamp(13px,0.9vw,15px)] leading-[1.6] text-[#7B6F5A]">
+                  {dictionary.contactSection.lead}
+                </p>
+                <div className="mt-6">
+                  <p className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">
+                    {dictionary.contactSection.emailLabel}
+                  </p>
+                  <a
+                    href={`mailto:${dictionary.contactSection.email}`}
+                    className="font-display mt-2 inline-block text-[clamp(19px,1.5vw,26px)] leading-tight tracking-[-0.01em] text-[#E8DCC4] transition-colors hover:text-[#F5EBD3]"
+                  >
+                    {dictionary.contactSection.email}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-6 lg:pt-1">
+                <div>
+                  <p className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">
+                    {dictionary.contactSection.availabilityLabel}
+                  </p>
+                  <p className="mt-2 text-[clamp(14px,0.95vw,16px)] leading-[1.6] text-[#A99C87]">
+                    {dictionary.contactSection.availabilityValue}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="font-utility text-[12px] tracking-[0.14em] text-[#4B4335]">
+                    {dictionary.contactSection.channelsLabel}
+                  </p>
+                  <ul className="mt-3 divide-y divide-[#3B342A] border-t border-[#3B342A]">
+                    {dictionary.contactSection.channels.map((channel) => (
+                      <li key={channel.label}>
+                        <a
+                          href={channel.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="group flex items-center justify-between py-3 transition-colors"
+                        >
+                          <span className="flex items-center gap-3">
+                            <svg
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                              className="h-4.5 w-4.5 shrink-0 fill-[#736343] transition-colors group-hover:fill-[#E8DCC4]"
+                            >
+                              {CHANNEL_ICONS[channel.label]}
+                            </svg>
+                            <span className="font-display text-[clamp(16px,1.05vw,19px)] tracking-[-0.01em] text-[#E8DCC4] transition-colors group-hover:text-[#F5EBD3]">
+                              {channel.label}
+                            </span>
+                          </span>
+                          <span className="font-utility text-[12px] tracking-[0.06em] text-[#736343] transition-colors group-hover:text-[#A99C87]">
+                            {channel.value}
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12 flex items-center justify-between border-t border-[#3B342A] pt-6 lg:mt-14">
+              <span className="font-utility text-[11px] tracking-[0.18em] text-[#4B4335]">{dictionary.contactSection.footerNote}</span>
+              <a
+                href="#top"
+                onClick={handleBackToTop}
+                className="font-utility text-[11px] tracking-[0.18em] text-[#736343] transition-colors hover:text-[#A99C87]"
+              >
+                BACK TO TOP ↑
+              </a>
+            </div>
           </div>
         </section>
       </div>

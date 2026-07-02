@@ -50,6 +50,18 @@ export type Dictionary = {
       stack: string[]
       scrollHint: string
     }
+    expandNote: string
+  }
+  contactSection: {
+    heading: string
+    lead: string
+    availabilityLabel: string
+    availabilityValue: string
+    emailLabel: string
+    email: string
+    channelsLabel: string
+    channels: { label: string; value: string; href: string }[]
+    footerNote: string
   }
   sectionPlaceholders: {
     about: string
@@ -76,11 +88,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     aboutSection: {
       introLines: [
-        "Junior software engineer with a strong frontend eye and a practical backend mindset.",
+        "Junior software developer with a strong frontend eye and a practical backend mindset.",
         "I build clean, reliable software that connects solid technical execution with real business value. I'm especially interested in creating products that are simple to use, well-structured, and built to solve real problems.",
       ],
       statementLines: [
-        "I'm a software engineer focused on turning",
+        "I'm a software developer focused on turning",
         "complex ideas into clean, usable digital products.",
         "My strength is connecting design, code, and",
         "product thinking to build software that looks",
@@ -88,11 +100,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       ],
       storyParagraphs: [
         "I'm Javier. My interest in technology comes from wanting to understand how ideas become real products. I started by building practical applications with Java, databases, and user interfaces, and over time I became especially interested in the connection between frontend design, backend logic, and business value.",
-        "Today, I focus on building software that is clean, useful, and easy to understand. I enjoy working on products that involve dashboards, automation, data, APIs, and AI-assisted features because they combine technical execution with real decision-making. My goal is to grow as a software engineer who can contribute not only with code, but also with clarity, product thinking, and attention to detail.",
+        "Today, I focus on building software that is clean, useful, and easy to understand. I enjoy working on products that involve dashboards, automation, data, APIs, and AI-assisted features because they combine technical execution with real decision-making. My goal is to grow as a software developer who can contribute not only with code, but also with clarity, product thinking, and attention to detail.",
         "Beyond technical skills, I value creativity and the ability to see opportunities where technology can create meaningful impact. I enjoy exploring new ideas, designing intuitive user experiences, and finding innovative ways to solve problems. My vision is to build solutions that not only work well but also deliver lasting value for users and businesses. By combining creativity with strong engineering principles, I aim to contribute to products that are both practical and forward-thinking.",
       ],
       currentlyLabel: "CURRENTLY",
-      currentlyValue: "Looking for my first full-time software engineering role",
+      currentlyValue: "Looking for my first full-time software development role",
       stackLabel: "STACK",
       stackItems: [
         "React",
@@ -169,16 +181,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
       ],
       closingNote:
-        "I'm early in my career and intentional about it — every capability here is something I have already shipped in a production environment, and the list grows with each project. Open to collaborations, freelance work, and a first full-time engineering role.",
+        "I'm early in my career and intentional about it — every capability here is something I have already shipped in a production environment, and the list grows with each project. Open to collaborations, freelance work, and a first full-time development role.",
     },
     projectsSection: {
-      eyebrow: "SELECTED WORK",
+      eyebrow: "WEB APP WITH TAURI",
       title: "Projects",
       lead: "A closer look at the production work I delivered during my engineering internship — built in a small team, shipped on real release cycles, and used by real testers.",
       project: {
         kicker: "(01)",
         name: "Cross-platform healthcare comparator app",
-        role: "Software Engineer Intern · Careexpand",
+        role: "Software Developer Intern · Careexpand",
         period: "Mar 2026 — Jun 2026",
         summary:
           "A medication and pharmacy comparator for the Puerto Rico market, built as a single codebase that ships to iOS, Android and desktop through Tauri. I owned several user-facing flows end to end and helped move the project from staging into the hands of real beta testers via TestFlight.",
@@ -227,6 +239,22 @@ export const dictionaries: Record<Locale, Dictionary> = {
         ],
         scrollHint: "Scroll to walk through the app",
       },
+      expandNote:
+        "This is the first project on display — more work is on the way. I'll be expanding this section as I ship new projects.",
+    },
+    contactSection: {
+      heading: "Let's build\nsomething good.",
+      lead: "I'm open to collaborations, freelance work, and a first full-time development role. If you have a project in mind or just want to talk, my inbox is open.",
+      availabilityLabel: "AVAILABILITY",
+      availabilityValue: "Open to work · Madrid, Spain",
+      emailLabel: "EMAIL",
+      email: "jave1403@gmail.com",
+      channelsLabel: "ELSEWHERE",
+      channels: [
+        { label: "LinkedIn", value: "/in/javierviloriaes", href: "https://www.linkedin.com/in/javierviloriaes/" },
+        { label: "GitHub", value: "@javivilo2003", href: "https://github.com/javivilo2003" },
+      ],
+      footerNote: "Designed & built by Javier Viloria — 2026",
     },
     sectionPlaceholders: {
       about: "This section is being built and will be published soon.",
@@ -236,7 +264,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     info: [
       { label: "INDEX Nº 00", value: "PORTFOLIO / 2026" },
-      { label: "DISCIPLINE", value: "SOFTWARE ENGINEER" },
+      { label: "DISCIPLINE", value: "SOFTWARE DEVELOPER" },
       { label: "BASED IN", value: "MADRID, SPAIN" },
       { label: "STATUS", value: "OPEN TO WORK" },
     ],
@@ -256,11 +284,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
     ],
     aboutSection: {
       introLines: [
-        "Ingeniero de software junior con una fuerte mirada de frontend y una mentalidad practica de backend.",
+        "Desarrollador de software junior con una fuerte mirada de frontend y una mentalidad practica de backend.",
         "Construyo software limpio y confiable que conecta una ejecucion tecnica solida con valor real de negocio. Me interesa especialmente crear productos simples de usar, bien estructurados y pensados para resolver problemas reales.",
       ],
       statementLines: [
-        "Soy un ingeniero de software enfocado en convertir",
+        "Soy un desarrollador de software enfocado en convertir",
         "ideas complejas en productos digitales limpios y utiles.",
         "Mi fortaleza es conectar diseno, codigo y",
         "pensamiento de producto para construir software que",
@@ -268,11 +296,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       ],
       storyParagraphs: [
         "Soy Javier. Mi interes por la tecnologia nace de entender como las ideas se convierten en productos reales. Empece construyendo aplicaciones practicas con Java, bases de datos e interfaces de usuario, y con el tiempo me interese especialmente en la conexion entre diseno frontend, logica backend y valor de negocio.",
-        "Hoy me enfoco en construir software limpio, util y facil de entender. Disfruto trabajar en productos con dashboards, automatizacion, datos, APIs y funciones asistidas por IA porque combinan ejecucion tecnica con toma de decisiones real. Mi objetivo es crecer como ingeniero de software que aporte no solo con codigo, sino tambien con claridad, criterio de producto y atencion al detalle.",
+        "Hoy me enfoco en construir software limpio, util y facil de entender. Disfruto trabajar en productos con dashboards, automatizacion, datos, APIs y funciones asistidas por IA porque combinan ejecucion tecnica con toma de decisiones real. Mi objetivo es crecer como desarrollador de software que aporte no solo con codigo, sino tambien con claridad, criterio de producto y atencion al detalle.",
         "Mas alla de las habilidades tecnicas, valoro la creatividad y la capacidad de ver oportunidades donde la tecnologia puede generar impacto real. Me gusta explorar ideas nuevas, disenar experiencias de usuario intuitivas y encontrar formas innovadoras de resolver problemas. Mi vision es construir soluciones que no solo funcionen bien, sino que tambien aporten valor duradero para usuarios y negocios. Al combinar creatividad con principios solidos de ingenieria, busco contribuir a productos practicos y con vision de futuro.",
       ],
       currentlyLabel: "ACTUALMENTE",
-      currentlyValue: "Buscando mi primer rol full-time en ingenieria de software",
+      currentlyValue: "Buscando mi primer rol full-time en desarrollo de software",
       stackLabel: "STACK",
       stackItems: [
         "React",
@@ -349,16 +377,16 @@ export const dictionaries: Record<Locale, Dictionary> = {
         },
       ],
       closingNote:
-        "Estoy al inicio de mi carrera y lo asumo con intencion: cada capacidad aqui es algo que ya he entregado en un entorno de produccion, y la lista crece con cada proyecto. Abierto a colaboraciones, trabajo freelance y un primer rol full-time como ingeniero.",
+        "Estoy al inicio de mi carrera y lo asumo con intencion: cada capacidad aqui es algo que ya he entregado en un entorno de produccion, y la lista crece con cada proyecto. Abierto a colaboraciones, trabajo freelance y un primer rol full-time como desarrollador.",
     },
     projectsSection: {
-      eyebrow: "TRABAJO SELECCIONADO",
+      eyebrow: "APP WEB CON TAURI",
       title: "Proyectos",
       lead: "Una mirada en detalle al trabajo de produccion que entregue durante mis practicas de ingenieria: construido en un equipo pequeno, enviado en ciclos reales de release y usado por testers reales.",
       project: {
         kicker: "(01)",
         name: "App comparador de salud multiplataforma",
-        role: "Software Engineer Intern · Careexpand",
+        role: "Software Developer Intern · Careexpand",
         period: "Marzo 2026 — Junio 2026",
         summary:
           "Un comparador de medicamentos y farmacias para el mercado de Puerto Rico, construido como un unico codigo que se envia a iOS, Android y escritorio a traves de Tauri. Desarrolle de principio a fin varios flujos de usuario y ayude a llevar el proyecto de staging a las manos de testers reales via TestFlight.",
@@ -407,6 +435,22 @@ export const dictionaries: Record<Locale, Dictionary> = {
         ],
         scrollHint: "Desplazate para recorrer la app",
       },
+      expandNote:
+        "Este es el primer proyecto en exhibicion — hay mas trabajo en camino. Ire ampliando esta seccion a medida que lance nuevos proyectos.",
+    },
+    contactSection: {
+      heading: "Construyamos\nalgo bueno.",
+      lead: "Estoy abierto a colaboraciones, trabajo freelance y a un primer puesto de ingenieria a tiempo completo. Si tienes un proyecto en mente o simplemente quieres hablar, mi bandeja de entrada esta abierta.",
+      availabilityLabel: "DISPONIBILIDAD",
+      availabilityValue: "Abierto a trabajar · Madrid, Espana",
+      emailLabel: "EMAIL",
+      email: "jave1403@gmail.com",
+      channelsLabel: "EN OTROS SITIOS",
+      channels: [
+        { label: "LinkedIn", value: "/in/javierviloriaes", href: "https://www.linkedin.com/in/javierviloriaes/" },
+        { label: "GitHub", value: "@javivilo2003", href: "https://github.com/javivilo2003" },
+      ],
+      footerNote: "Disenado y construido por Javier Viloria — 2026",
     },
     sectionPlaceholders: {
       about: "Esta seccion esta en construccion y se publicara pronto.",
@@ -416,7 +460,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     info: [
       { label: "INDICE Nº 00", value: "PORTAFOLIO / 2026" },
-      { label: "DISCIPLINA", value: "INGENIERO DE SOFTWARE" },
+      { label: "DISCIPLINA", value: "DESARROLLADOR DE SOFTWARE" },
       { label: "BASADO EN", value: "MADRID, ESPANA" },
       { label: "ESTADO", value: "ABIERTO A TRABAJAR" },
     ],
